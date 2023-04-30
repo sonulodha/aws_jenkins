@@ -46,6 +46,7 @@ Attach the policy to the EKS node role using the following command:
 This command attaches the policy to the EKS node role with the ARN stored in $EKS_NODE_ROLE.
 
 Deploy Amazon EBS CSI Driver
+    
     kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
 
 Verify ebs-csi pods running
