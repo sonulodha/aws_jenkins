@@ -43,8 +43,6 @@ Attach the policy to the EKS node role using the following command:
 
     aws iam attach-role-policy --role-name $EKS_NODE_ROLE --policy-arn $POLICY_ARN
 
-This command attaches the policy to the EKS node role with the ARN stored in $EKS_NODE_ROLE.
-
 Deploy Amazon EBS CSI Driver
     
     kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=master"
@@ -52,3 +50,26 @@ Deploy Amazon EBS CSI Driver
 Verify ebs-csi pods running
     
     kubectl get pods -n kube-system
+ 
+ Create namespace for jenkins
+ 
+    kubectl create namespace jenkins   
+    
+Create ebs storage class 
+    
+    kubectl apply -f storageclass.yaml -n jenkins
+    
+Create PersistentVolumeClaim 
+    
+    kubectl apply -f PersistentVolumeClaim.yml -n jenkins
+    
+Create jenkins deployment 
+
+    kubectl apply -f deployment.yml -n jenkins 
+    kubectl -n jenkins get pod
+ 
+Expose jenkins deploy as LoadBalancer Service
+
+    kubectl apply -f service.yml -n jenkins
+    
+    kubectl -n jenkins get svc 
