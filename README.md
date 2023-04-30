@@ -9,19 +9,27 @@ Step-01: Introduction
     Associate IAM Policy to Worker Node IAM Role
     Install EBS CSI Driver
 
-git clone https://github.com/sonulodha/aws_jenkins.git
+clone github repository
 
-cd aws_jenkins
+    git clone https://github.com/sonulodha/aws_jenkins.git
 
-POLICY_NAME=amazon_ebs_csi_driver_eks
+switch to aws_jenkins directory
 
-aws iam create-policy --policy-name $POLICY_NAME --policy-document file://policy.json
+    cd aws_jenkins
 
-EKS_NODE_ROLE=$(kubectl -n kube-system describe configmap aws-auth|grep rolearn | cut -d'/' -f2)
+    POLICY_NAME=amazon_ebs_csi_driver_eks
 
-POLICY_ARN=$(aws iam list-policies --query "Policies[?PolicyName=='${POLICY_NAME}'].Arn" --output text | cut -f2 -d' ' | tr -d '"')
 
-aws iam attach-role-policy --role-name $EKS_NODE_ROLE --policy-arn $POLICY_ARN
+    aws iam create-policy --policy-name $POLICY_NAME --policy-document file://policy.json
+
+
+    EKS_NODE_ROLE=$(kubectl -n kube-system describe configmap aws-auth|grep rolearn | cut -d'/' -f2)
+
+
+    POLICY_ARN=$(aws iam list-policies --query "Policies[?PolicyName=='${POLICY_NAME}'].Arn" --output text | cut -f2 -d' ' | tr -d '"')
+
+    
+    aws iam attach-role-policy --role-name $EKS_NODE_ROLE --policy-arn $POLICY_ARN
 
 
 
